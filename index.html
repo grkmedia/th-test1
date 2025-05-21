@@ -1,56 +1,122 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Reveal Your Luck</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prelander Spinner</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background: #f8f1e4;
+      background: #fff8ed;
+      font-family: sans-serif;
       text-align: center;
-      padding: 50px;
-      color: #333;
+      padding: 20px;
     }
     h1 {
       font-size: 24px;
       margin-bottom: 20px;
     }
-    .loader {
-      width: 100%;
-      background: #ddd;
-      border-radius: 25px;
+    .wheel {
+      position: relative;
+      width: 300px;
+      height: 300px;
+      margin: 0 auto;
+      border: 4px solid white;
+      border-radius: 50%;
+      clip-path: circle(50%);
       overflow: hidden;
-      height: 25px;
-      margin: 30px 0;
+      display: flex;
+      flex-wrap: wrap;
     }
-    .bar {
-      height: 100%;
-      width: 0%;
-      background: #ff9900;
-      animation: loading 4s linear forwards;
+    .triangle {
+      width: 50%;
+      height: 50%;
+      box-sizing: border-box;
+      border: 4px solid white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
     }
-    @keyframes loading {
-      to { width: 100%; }
+    .triangle.red {
+      background-color: #e74c3c;
     }
-    button {
-      padding: 15px 25px;
-      font-size: 16px;
-      background: #008cff;
-      color: #fff;
-      border: none;
+    .triangle.green {
+      background-color: #2ecc71;
+    }
+    .triangle.blue {
+      background-color: #3498db;
+    }
+    .center {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80px;
+      height: 80px;
+      background-color: #e0d4f3;
+      border-radius: 50%;
+      border: 4px solid white;
+      z-index: 10;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .pointer {
+      width: 0; 
+      height: 0; 
+      border-left: 15px solid transparent;
+      border-right: 15px solid transparent;
+      border-top: 25px solid #444;
+      transform: rotate(45deg);
+    }
+    .icon {
+      width: 60px;
+      height: 60px;
+      border: 3px solid white;
+      border-radius: 10px;
+      background-size: cover;
+      background-position: center;
+      margin: 5px;
+    }
+    .loading-bar {
+      width: 80%;
+      height: 16px;
+      margin: 30px auto 10px auto;
+      background: linear-gradient(to right, red, green, blue);
       border-radius: 8px;
+    }
+    .continue-btn {
+      background: linear-gradient(to right, red, green, blue);
+      border: none;
+      color: white;
+      font-size: 18px;
+      padding: 10px 30px;
+      border-radius: 30px;
+      margin-top: 10px;
       cursor: pointer;
-      margin-top: 20px;
     }
   </style>
 </head>
 <body>
-  <h1>We are calculating your daily fortune and lucky game...</h1>
-  <div class="loader">
-    <div class="bar"></div>
+  <h1>Your Next Favorite Content is Waiting</h1>
+  <div class="wheel">
+    <div class="triangle green">
+      <div class="icon" style="background-image: url('superhero-pigs.png');"></div>
+      <div class="icon" style="background-image: url('quiz-boy-girl.png');"></div>
+    </div>
+    <div class="triangle red">
+      <div class="icon" style="background-image: url('panda.png');"></div>
+      <div class="icon" style="background-image: url('moon-stars.png');"></div>
+    </div>
+    <div class="triangle blue">
+      <div class="icon" style="background-image: url('buddha.png');"></div>
+      <div class="icon" style="background-image: url('boy-gaming.png');"></div>
+    </div>
+    <div class="center">
+      <div class="pointer"></div>
+    </div>
   </div>
-  <p>Please wait while we prepare your personalized result.</p>
-  <button onclick="window.location.href='YOUR_VOLOOM_URL_HERE'">Continue</button>
+  <div class="loading-bar"></div>
+  <button class="continue-btn">Continue</button>
 </body>
 </html>
