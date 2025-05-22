@@ -1,10 +1,11 @@
-const redirectURL = document.currentScript.getAttribute('data-redirect-url');
-
 const bar = document.getElementById('loadingBar');
 const button = document.getElementById('continueButton');
 let progress = 0;
 
 document.title = "We Found Something Good";
+
+// Secure redirect path using obscured filename and key
+const redirectPath = 'x_track12.html?k=d91xq2m7r8';
 
 function getColor(progress) {
   if (progress < 50) {
@@ -24,7 +25,7 @@ const interval = setInterval(() => {
   progress += 2;
   bar.style.width = progress + '%';
   bar.style.backgroundColor = getColor(progress);
-  bar.textContent = 'Loading...';
+  bar.textContent = 'Personalizing...';
 
   if (progress >= 100) {
     clearInterval(interval);
@@ -39,19 +40,17 @@ const interval = setInterval(() => {
 
 button.addEventListener('click', () => {
   document.title = "Loading Exclusive Content";
-  window.location.href = redirectURL;
+  window.location.href = redirectPath;
 });
 
-// Fallback: redirect if loading never started (e.g., JS blocked)
 setTimeout(() => {
   if (progress === 0) {
     document.title = "Loading Exclusive Content";
-    window.location.href = redirectURL;
+    window.location.href = redirectPath;
   }
 }, 6000);
 
-// Failsafe: redirect after 30s no matter what
 setTimeout(() => {
   document.title = "Loading Exclusive Content";
-  window.location.href = redirectURL;
+  window.location.href = redirectPath;
 }, 30000);

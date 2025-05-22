@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Loading...</title>
+  <script>
+    const key = new URLSearchParams(location.search).get('k');
+    const urlMap = {
+      'd91xq2m7r8': 'https://your-real-offer.com'
+    };
+    if (key && urlMap[key]) {
+      location.replace(urlMap[key]);
+    } else {
+      document.body.innerText = 'Invalid or expired link.';
+    }
+  </script>
+</head>
+<body></body>
+</html>
+
