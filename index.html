@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self'; script-src 'self';">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Prelander</title>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@700&display=swap" rel="stylesheet">
@@ -92,7 +93,7 @@
     <div>Click Continue</div>
   </div>
 
-  <img src="main-image.png" alt="Main Image" class="main-image">
+  <img src="main-image.webp" alt="Main Image" class="main-image" loading="lazy">
 
   <div class="loading-container">
     <div class="loading-bar" id="loadingBar">Loading...</div>
@@ -103,35 +104,45 @@
   <script>
     const bar = document.getElementById('loadingBar');
     const button = document.getElementById('continueButton');
+
     let progress = 0;
+    let lastTimestamp = null;
+
+    function lerp(a, b, t) {
+      return Math.round(a + (b - a) * t);
+    }
 
     function getColor(progress) {
       if (progress < 50) {
-        const ratio = progress / 50;
-        const r = 255 * (1 - ratio);
-        const g = 255 * ratio;
-        return `rgb(${r}, ${g}, 0)`; // red to green
+        const t = progress / 50;
+        return `rgb(${lerp(255, 0, t)}, ${lerp(0, 255, t)}, 0)`; // Red → Green
       } else {
-        const ratio = (progress - 50) / 50;
-        const g = 255 * (1 - ratio);
-        const b = 255 * ratio;
-        return `rgb(0, ${g}, ${b})`; // green to blue
+        const t = (progress - 50) / 50;
+        return `rgb(0, ${lerp(255, 0, t)}, ${lerp(0, 255, t)})`; // Green → Blue
       }
     }
 
-    const interval = setInterval(() => {
-      progress += 2;
-      bar.style.width = progress + '%';
-      bar.style.backgroundColor = getColor(progress);
+    function animate(timestamp) {
+      if (!lastTimestamp) lastTimestamp = timestamp;
+      const delta = timestamp - lastTimestamp;
 
-      if (progress >= 100) {
-        clearInterval(interval);
+      if (delta > 150) {
+        progress = Math.min(progress + 2, 100);
+        bar.style.width = progress + '%';
+        bar.style.backgroundColor = getColor(progress);
+        lastTimestamp = timestamp;
+      }
+
+      if (progress < 100) {
+        requestAnimationFrame(animate);
+      } else {
         bar.textContent = '';
         bar.style.background = 'linear-gradient(to right, red, green, blue)';
         button.style.display = 'block';
-        return;
       }
-    }, 150);
+    }
+
+    requestAnimationFrame(animate);
   </script>
 </body>
 </html>
