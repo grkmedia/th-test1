@@ -25,7 +25,7 @@ const interval = setInterval(() => {
   progress += 2;
   bar.style.width = progress + '%';
   bar.style.backgroundColor = getColor(progress);
-  bar.textContent = 'Personalizing...';
+  bar.textContent = 'Getting things ready...';
 
   if (progress >= 100) {
     clearInterval(interval);
