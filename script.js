@@ -4,7 +4,6 @@ const bar = document.getElementById('loadingBar');
 const button = document.getElementById('continueButton');
 let progress = 0;
 
-// Initial browser tab title
 document.title = "We Found Something Good";
 
 function getColor(progress) {
@@ -21,7 +20,6 @@ function getColor(progress) {
   }
 }
 
-// Animate loading bar
 const interval = setInterval(() => {
   progress += 2;
   bar.style.width = progress + '%';
@@ -35,27 +33,24 @@ const interval = setInterval(() => {
     button.style.display = 'block';
     button.classList.add('button-flash');
 
-    // Title when user can interact
     document.title = "Ready? Click Continue";
   }
 }, 150);
 
-// Button click = redirect
 button.addEventListener('click', () => {
   document.title = "Loading Exclusive Content";
   window.location.href = redirectURL;
 });
 
-// Fallback: redirect after 4s if button blocked
+// Fallback: redirect if loading never started (e.g., JS blocked)
 setTimeout(() => {
-  const buttonVisible = window.getComputedStyle(button).display !== "none";
-  if (!buttonVisible) {
+  if (progress === 0) {
     document.title = "Loading Exclusive Content";
     window.location.href = redirectURL;
   }
-}, 4000);
+}, 6000);
 
-// Failsafe: redirect after 30s
+// Failsafe: redirect after 30s no matter what
 setTimeout(() => {
   document.title = "Loading Exclusive Content";
   window.location.href = redirectURL;
