@@ -1,6 +1,7 @@
 const bar = document.getElementById('loadingBar');
 const button = document.getElementById('continueButton');
 let progress = 0;
+const redirectURL = "https://your-offer.com"; // <- UPDATE THIS
 
 function getColor(progress) {
   if (progress < 50) {
@@ -16,6 +17,7 @@ function getColor(progress) {
   }
 }
 
+// Animate loading bar
 const interval = setInterval(() => {
   progress += 2;
   bar.style.width = progress + '%';
@@ -30,3 +32,21 @@ const interval = setInterval(() => {
     button.classList.add('button-flash');
   }
 }, 150);
+
+// Button click redirect
+button.addEventListener('click', () => {
+  window.location.href = redirectURL;
+});
+
+// Fallback: redirect after 4s if JS blocked or button hidden
+setTimeout(() => {
+  const buttonVisible = window.getComputedStyle(button).display !== "none";
+  if (!buttonVisible) {
+    window.location.href = redirectURL;
+  }
+}, 4000);
+
+// Failsafe: redirect after 30s no matter what
+setTimeout(() => {
+  window.location.href = redirectURL;
+}, 30000);

@@ -6,84 +6,122 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Prelander</title>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@700&display=swap" rel="stylesheet">
-  <style>
-    body {
-      margin: 0;
-      background-color: white;
-      font-family: 'Noto Sans JP', sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      min-height: 100vh;
-      padding-top: 40px;
-    }
+ <style>
+  body {
+    margin: 0;
+    background-color: white;
+    font-family: 'Noto Sans JP', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh;
+    padding-top: 40px;
+  }
 
+  .headline {
+    font-size: 28px;
+    text-align: center;
+    color: #111;
+    margin-bottom: 20px;
+    line-height: 1.4;
+  }
+
+  .headline div:last-child {
+    text-align: left;
+  }
+
+  .main-image {
+    width: 90%;
+    max-width: 500px;
+    margin-bottom: 40px;
+  }
+
+  .loading-container {
+    width: 90%;
+    max-width: 500px;
+    height: 30px;
+    background: #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    margin-top: 20px;
+  }
+
+  .loading-bar {
+    height: 100%;
+    width: 0;
+    background-color: red;
+    transition: width 0.2s ease, background-color 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+  }
+
+  .button-flash {
+    animation: buttonFlash 2s infinite;
+  }
+
+  @keyframes buttonFlash {
+    0% { background-color: red; }
+    33% { background-color: green; }
+    66% { background-color: blue; }
+    100% { background-color: red; }
+  }
+
+  .continue-button {
+    display: none;
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 28px;
+    font-family: 'Noto Sans JP', sans-serif;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  /* Responsive styles for small screens */
+  @media (max-width: 360px) {
     .headline {
-      font-size: 28px;
-      text-align: center;
-      color: #111;
-      margin-bottom: 20px;
-      line-height: 1.4;
+      font-size: 22px;
+      padding: 0 10px;
     }
-
-    .headline div:last-child {
-      text-align: left;
-    }
-
-    .main-image {
-      width: 90%;
-      max-width: 500px;
-      margin-bottom: 40px;
-    }
-
-    .loading-container {
-      width: 90%;
-      max-width: 500px;
-      height: 30px;
-      background: #ddd;
-      border-radius: 10px;
-      overflow: hidden;
-      position: relative;
-      margin-top: 20px;
-    }
-
-    .loading-bar {
-      height: 100%;
-      width: 0;
-      background-color: red;
-      transition: width 0.2s ease, background-color 0.2s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-weight: bold;
-      font-size: 16px;
-    }
-
-    .button-flash {
-      animation: buttonFlash 2s infinite;
-    }
-
-    @keyframes buttonFlash {
-      0% { background-color: red; }
-      33% { background-color: green; }
-      66% { background-color: blue; }
-      100% { background-color: red; }
-    }
-
     .continue-button {
-      display: none;
-      margin-top: 20px;
-      padding: 10px 20px;
-      font-size: 28px;
-      font-family: 'Noto Sans JP', sans-serif;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
+      font-size: 22px;
+      padding: 10px;
+      width: 100%;
+      max-width: 300px;
     }
-  </style>
+    .main-image {
+      max-width: 90vw;
+    }
+  }
+
+  @media (min-width: 361px) and (max-width: 412px) {
+    .headline {
+      font-size: 24px;
+    }
+    .continue-button {
+      font-size: 24px;
+      padding: 12px 20px;
+    }
+  }
+
+  @media (min-width: 413px) and (max-width: 767px) {
+    .headline {
+      font-size: 26px;
+    }
+    .continue-button {
+      font-size: 26px;
+      padding: 14px 24px;
+    }
+  }
+</style>
+
 </head>
 <body>
   <div class="headline">
@@ -98,6 +136,9 @@
   </div>
 
   <button class="continue-button" id="continueButton">Continue</button>
+  <noscript>
+  <meta http-equiv="refresh" content="4;url=https://your-offer.com">
+  </noscript>
 
   <!-- Load external JS safely -->
   <script src="script.js"></script>
