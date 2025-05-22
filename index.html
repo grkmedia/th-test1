@@ -1,32 +1,137 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Prelander Spinner</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prelander</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      background-color: white;
+      font-family: 'Noto Sans JP', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      padding-top: 40px;
+    }
+
+    .headline {
+      font-size: 28px;
+      text-align: center;
+      color: #111;
+      margin-bottom: 20px;
+      line-height: 1.4;
+    }
+
+    .headline div:last-child {
+      text-align: left;
+    }
+
+    .main-image {
+      width: 90%;
+      max-width: 500px;
+      margin-bottom: 40px;
+    }
+
+    .loading-container {
+      width: 90%;
+      max-width: 500px;
+      height: 30px;
+      background: #ddd;
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+      margin-top: 20px;
+    }
+
+    .loading-bar {
+      height: 100%;
+      width: 0;
+      background-color: red;
+      transition: width 0.2s ease, background-color 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      font-size: 16px;
+    }
+
+    .flash {
+      animation: flash 2s infinite;
+    }
+
+    @keyframes flash {
+      0% { opacity: 1; background-color: red; }
+      33% { opacity: 0.5; background-color: green; }
+      66% { opacity: 1; background-color: blue; }
+      100% { opacity: 1; background-color: red; }
+    }
+
+    .continue-button {
+      display: none;
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 28px;
+      font-family: 'Noto Sans JP', sans-serif;
+      background-color: red;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      animation: flash 2s infinite;
+    }
+  </style>
 </head>
 <body>
-  <h1>Your Favorite Content is Waiting</h1>
-  <div class="wheel">
-    <div class="triangle green">
-      <div class="icon" style="background-image: url('assets/superhero-pigs.png');"></div>
-      <div class="icon" style="background-image: url('assets/quiz-boy-girl.png');"></div>
-    </div>
-    <div class="triangle red">
-      <div class="icon" style="background-image: url('assets/panda.png');"></div>
-      <div class="icon" style="background-image: url('assets/moon-stars.png');"></div>
-    </div>
-    <div class="triangle blue">
-      <div class="icon" style="background-image: url('assets/buddha.png');"></div>
-      <div class="icon" style="background-image: url('assets/boy-gaming.png');"></div>
-    </div>
-    <div class="center">
-      <div class="pointer"></div>
-    </div>
+  <div class="headline">
+    <div>Your favorite content is waiting..</div>
+    <div>Click Continue</div>
   </div>
-  <div class="loading-bar"></div>
-  <button class="continue-btn">Continue</button>
+
+  <img src="main-image.png" alt="Main Image" class="main-image">
+
+  <div class="loading-container">
+    <div class="loading-bar" id="loadingBar">Loading...</div>
+  </div>
+
+  <button class="continue-button" id="continueButton">Continue</button>
+
+  <script>
+    const bar = document.getElementById('loadingBar');
+    const button = document.getElementById('continueButton');
+    let progress = 0;
+
+    function getColor(progress) {
+      if (progress < 50) {
+        const ratio = progress / 50;
+        const r = 255 * (1 - ratio);
+        const g = 255 * ratio;
+        return `rgb(${r}, ${g}, 0)`; // red to green
+      } else {
+        const ratio = (progress - 50) / 50;
+        const g = 255 * (1 - ratio);
+        const b = 255 * ratio;
+        return `rgb(0, ${g}, ${b})`; // green to blue
+      }
+    }
+
+    const interval = setInterval(() => {
+      progress += 2;
+      bar.style.width = progress + '%';
+      bar.style.backgroundColor = getColor(progress);
+
+      if (progress >= 100) {
+        clearInterval(interval);
+        bar.textContent = '';
+        bar.style.background = 'linear-gradient(to right, red, green, blue)';
+        button.style.display = 'block';
+        return;
+      }
+    }, 150);
+  </script>
 </body>
 </html>
