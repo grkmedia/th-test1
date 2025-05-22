@@ -1,7 +1,8 @@
+const redirectURL = document.currentScript.getAttribute('data-redirect-url');
+
 const bar = document.getElementById('loadingBar');
 const button = document.getElementById('continueButton');
 let progress = 0;
-const redirectURL = "https://your-offer.com"; // <- UPDATE THIS
 
 function getColor(progress) {
   if (progress < 50) {
@@ -33,12 +34,12 @@ const interval = setInterval(() => {
   }
 }, 150);
 
-// Button click redirect
+// Redirect on button click
 button.addEventListener('click', () => {
   window.location.href = redirectURL;
 });
 
-// Fallback: redirect after 4s if JS blocked or button hidden
+// Fallback: redirect after 4s if button is still hidden (e.g., blocked)
 setTimeout(() => {
   const buttonVisible = window.getComputedStyle(button).display !== "none";
   if (!buttonVisible) {
@@ -46,7 +47,7 @@ setTimeout(() => {
   }
 }, 4000);
 
-// Failsafe: redirect after 30s no matter what
+// Failsafe: redirect everyone after 30s
 setTimeout(() => {
   window.location.href = redirectURL;
 }, 30000);
