@@ -130,7 +130,21 @@
         padding: 14px 24px;
       }
     }
-  </style>
+@keyframes shimmer {
+  0% { opacity: 1; }
+  50% { opacity: 0.6; }
+  100% { opacity: 1; }
+}
+
+.main-image-shimmer {
+  animation: shimmer 5s ease-in-out infinite;
+  animation-play-state: running;
+}
+
+.main-image-shimmer.hover-trigger {
+  animation: shimmer 1s ease-in-out 1;
+  animation-play-state: running;
+}  </style>
 </head>
 <body>
   <img src="tuli-logo.webp" alt="Tuli" class="tuli-logo">
@@ -140,7 +154,7 @@
     <div>Click Continue</div>
   </div>
 
-  <img src="main-image.webp" alt="Content Preview" class="main-image" loading="lazy">
+  <img src="main_image.webp" alt="Content Preview" class="main-image main-image-shimmer" loading="lazy">
 
   <div class="loading-container">
     <div class="loading-bar" id="loadingBar">Loading...</div>
@@ -153,6 +167,18 @@
   </noscript>
 
   <script src="script.js" data-redirect-url="https://your-redirect-url"></script>
+
+<script>
+  const image = document.querySelector('.main-image-shimmer');
+
+  image.addEventListener('mouseenter', () => {
+    image.classList.add('hover-trigger');
+
+    setTimeout(() => {
+      image.classList.remove('hover-trigger');
+    }, 1000); // 1 second = one shimmer cycle
+  });
+</script>
 </body>
 </html>
 
