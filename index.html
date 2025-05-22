@@ -93,7 +93,7 @@
     <div>Click Continue</div>
   </div>
 
-  <img src="main-image.webp" alt="Main Image" class="main-image" loading="lazy">
+  <img src="main-image.png" alt="Main Image" class="main-image">
 
   <div class="loading-container">
     <div class="loading-bar" id="loadingBar">Loading...</div>
@@ -104,45 +104,35 @@
   <script>
     const bar = document.getElementById('loadingBar');
     const button = document.getElementById('continueButton');
-
     let progress = 0;
-    let lastTimestamp = null;
-
-    function lerp(a, b, t) {
-      return Math.round(a + (b - a) * t);
-    }
 
     function getColor(progress) {
       if (progress < 50) {
-        const t = progress / 50;
-        return `rgb(${lerp(255, 0, t)}, ${lerp(0, 255, t)}, 0)`; // Red → Green
+        const ratio = progress / 50;
+        const r = 255 * (1 - ratio);
+        const g = 255 * ratio;
+        return `rgb(${r}, ${g}, 0)`; // red to green
       } else {
-        const t = (progress - 50) / 50;
-        return `rgb(0, ${lerp(255, 0, t)}, ${lerp(0, 255, t)})`; // Green → Blue
+        const ratio = (progress - 50) / 50;
+        const g = 255 * (1 - ratio);
+        const b = 255 * ratio;
+        return `rgb(0, ${g}, ${b})`; // green to blue
       }
     }
 
-    function animate(timestamp) {
-      if (!lastTimestamp) lastTimestamp = timestamp;
-      const delta = timestamp - lastTimestamp;
+    const interval = setInterval(() => {
+      progress += 2;
+      bar.style.width = progress + '%';
+      bar.style.backgroundColor = getColor(progress);
 
-      if (delta > 150) {
-        progress = Math.min(progress + 2, 100);
-        bar.style.width = progress + '%';
-        bar.style.backgroundColor = getColor(progress);
-        lastTimestamp = timestamp;
-      }
-
-      if (progress < 100) {
-        requestAnimationFrame(animate);
-      } else {
+      if (progress >= 100) {
+        clearInterval(interval);
         bar.textContent = '';
         bar.style.background = 'linear-gradient(to right, red, green, blue)';
         button.style.display = 'block';
+        return;
       }
-    }
-
-    requestAnimationFrame(animate);
+    }, 150);
   </script>
 </body>
 </html>
