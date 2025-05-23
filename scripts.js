@@ -1,54 +1,70 @@
-const imageRedirectURL = "https://distroutshantimal.com/click/1";
-const buttonRedirectURL = "https://distroutshantimal.com/click/2";
-const fallbackRedirectURL = "https://distroutshantimal.com/click/3";
+const bar = document.getElementById('loadingBar');
+const button = document.getElementById('continueButton');
+const image = document.getElementById('main_image');
+let progress = 0;
 
-const loadingBar = document.getElementById("loading_bar");
-const continueButton = document.getElementById("continue_button");
-const loadingLabel = document.getElementById("loading_label");
+document.title = "We Found Something Good";
 
-let loadingTime = 6000;
-let interval = loadingTime / 3;
-let colors = ["red", "green", "blue"];
-let index = 0;
+// Redirect targets
+const imageRedirect = 'https://distroutshantimal.com/click/1';
+const buttonRedirect = 'https://distroutshantimal.com/click/2';
+const fallbackRedirect = 'https://distroutshantimal.com/click/3';
 
-// Set up fallback auto-redirect
-setTimeout(() => {
-  window.location.href = fallbackRedirectURL;
-}, 30000);
-
-// Start loading bar animation and color change
-function startLoading() {
-  loadingBar.style.backgroundColor = colors[0];
-  loadingBar.style.transition = `width ${loadingTime}ms linear`;
-  loadingBar.style.width = "100%";
-
-  let shimmerTimeout = setTimeout(() => {
-    loadingBar.classList.add("shimmer");
-  }, 3500);
-
-  let colorInterval = setInterval(() => {
-    index++;
-    if (index < colors.length) {
-      loadingBar.style.backgroundColor = colors[index];
-    } else {
-      clearInterval(colorInterval);
-    }
-  }, interval);
-
-  setTimeout(() => {
-    continueButton.classList.remove("hidden");
-    continueButton.classList.add("pulse");
-    continueButton.style.backgroundColor = colors[colors.length - 1];
-  }, loadingTime);
+function getColor(progress) {
+  if (progress < 50) {
+    const ratio = progress / 50;
+    const r = 255 * (1 - ratio);
+    const g = 255 * ratio;
+    return `rgb(${r}, ${g}, 0)`; // red to green
+  } else {
+    const ratio = (progress - 50) / 50;
+    const g = 255 * (1 - ratio);
+    const b = 255 * ratio;
+    return `rgb(0, ${g}, ${b})`; // green to blue
+  }
 }
 
-document.getElementById("main_image").addEventListener("click", () => {
-  window.location.href = imageRedirectURL;
+const interval = setInterval(() => {
+  progress += 2;
+  bar.style.width = progress + '%';
+  bar.style.backgroundColor = getColor(progress);
+  bar.textContent = 'Getting things ready...';
+
+  if (progress >= 100) {
+    clearInterval(interval);
+    bar.textContent = '';
+    bar.style.background = 'linear-gradient(to right, red, green, blue)';
+    button.style.display = 'block';
+    button.classList.add('button-flash');
+    document.title = "Ready? Click Continue";
+  }
+}, 150);
+
+// Button click → redirect to offer 2
+button.addEventListener('click', () => {
+  document.title = "Loading Exclusive Content";
+  window.location.href = buttonRedirect;
 });
 
-continueButton.addEventListener("click", (e) => {
-  e.preventDefault();
-  window.location.href = buttonRedirectURL;
-});
+// Image click → redirect to offer 1
+if (image) {
+  image.addEventListener('click', () => {
+    document.title = "Loading Exclusive Content";
+    window.location.href = imageRedirect;
+  });
+}
 
-startLoading();
+// JS failsafe → redirect after 6s if nothing progresses
+setTimeout(() => {
+  if (progress === 0) {
+    document.title = "Loading Exclusive Content";
+    window.location.href = fallbackRedirect;
+  }
+}, 6000);
+
+// Hard failsafe → always redirect after 30s
+setTimeout(() => {
+  document.title = "Loading Exclusive Content";
+  window.location.href = fallbackRedirect;
+}, 30000);
+
