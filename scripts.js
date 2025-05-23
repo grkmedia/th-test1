@@ -1,4 +1,4 @@
-const bar = document.getElementById('loadingBar');
+const bar = document.getElementById('loading_bar');
 const button = document.getElementById('continueButton');
 const image = document.getElementById('main_image');
 let progress = 0;
