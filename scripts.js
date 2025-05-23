@@ -1,11 +1,10 @@
 const bar = document.getElementById('loading_bar');
-const button = document.getElementById('continueButton');
+const button = document.getElementById('continue_button');
 const image = document.getElementById('main_image');
 let progress = 0;
 
-document.title = "We Found Something...";
+document.title = "We Found Something Good";
 
-// Redirect targets
 const imageRedirect = 'https://distroutshantimal.com/click/1';
 const buttonRedirect = 'https://distroutshantimal.com/click/2';
 const fallbackRedirect = 'https://distroutshantimal.com/click/3';
@@ -28,25 +27,23 @@ const interval = setInterval(() => {
   progress += 2;
   bar.style.width = progress + '%';
   bar.style.backgroundColor = getColor(progress);
-  bar.textContent = 'Getting things Ready...';
+  bar.textContent = 'Getting things ready...';
 
   if (progress >= 100) {
     clearInterval(interval);
     bar.textContent = '';
     bar.style.background = 'linear-gradient(to right, red, green, blue)';
     button.style.display = 'block';
-    button.classList.add('button-flash');
+    button.classList.add('pulse');
     document.title = "Ready? Click Continue";
   }
 }, 150);
 
-// Button click → redirect to offer 2
 button.addEventListener('click', () => {
   document.title = "Loading Exclusive Content";
   window.location.href = buttonRedirect;
 });
 
-// Image click → redirect to offer 1
 if (image) {
   image.addEventListener('click', () => {
     document.title = "Loading Exclusive Content";
@@ -54,7 +51,6 @@ if (image) {
   });
 }
 
-// JS failsafe → redirect after 6s if nothing progresses
 setTimeout(() => {
   if (progress === 0) {
     document.title = "Loading Exclusive Content";
@@ -62,9 +58,7 @@ setTimeout(() => {
   }
 }, 6000);
 
-// Hard failsafe → always redirect after 40s
 setTimeout(() => {
   document.title = "Loading Exclusive Content";
   window.location.href = fallbackRedirect;
 }, 30000);
-
