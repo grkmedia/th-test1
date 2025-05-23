@@ -3,7 +3,7 @@ const button = document.getElementById('continueButton');
 const image = document.getElementById('main_image');
 let progress = 0;
 
-document.title = "We Found Something Good";
+document.title = "We Found Something...";
 
 // Redirect targets
 const imageRedirect = 'https://distroutshantimal.com/click/1';
@@ -28,7 +28,7 @@ const interval = setInterval(() => {
   progress += 2;
   bar.style.width = progress + '%';
   bar.style.backgroundColor = getColor(progress);
-  bar.textContent = 'Getting things ready...';
+  bar.textContent = 'Getting things Ready...';
 
   if (progress >= 100) {
     clearInterval(interval);
@@ -62,7 +62,7 @@ setTimeout(() => {
   }
 }, 6000);
 
-// Hard failsafe → always redirect after 30s
+// Hard failsafe → always redirect after 40s
 setTimeout(() => {
   document.title = "Loading Exclusive Content";
   window.location.href = fallbackRedirect;
